@@ -1,103 +1,98 @@
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+"use client"
+
+import { motion } from "framer-motion"
 import { Check } from "lucide-react"
 
-export function Pricing() {
-  const packages = [
-    {
-      name: "Basic Wash",
-      price: "$79",
-      description: "Perfect for regular maintenance",
-      features: ["Exterior wash", "Tire shine", "Air freshener", "Mobile service"],
-      popular: false,
-    },
-    {
-      name: "Premium Detail",
-      price: "$149",
-      description: "Our most popular choice",
-      features: [
-        "Everything in Basic",
-        "Interior vacuum & wipe",
-        "Wax application",
-        "Window cleaning",
-        "Undercarriage rinse",
-      ],
-      popular: true,
-    },
-    {
-      name: "Luxury Package",
-      price: "$249",
-      description: "Complete transformation",
-      features: [
-        "Everything in Premium",
-        "Ceramic coating",
-        "Deep interior cleaning",
-        "Engine bay detailing",
-        "Paint protection film",
-      ],
-      popular: false,
-    },
-  ]
+const pricingTiers = [
+  {
+    name: "Exterior Wash",
+    price: "Starting from $49",
+    description: "Professional exterior cleaning",
+    features: ["Hand wash", "Tire shine", "Quick dry"],
+  },
+  {
+    name: "Full Detail",
+    price: "Starting from $149",
+    description: "Complete interior & exterior",
+    features: ["Exterior wash", "Interior vacuum", "Dashboard detail", "Window cleaning"],
+    featured: true,
+  },
+  {
+    name: "Premium Package",
+    price: "Starting from $299",
+    description: "Ultimate detailing experience",
+    features: ["Full detail", "Paint correction", "Ceramic coating", "Leather treatment"],
+  },
+]
+
+export default function Pricing() {
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id)
+    element?.scrollIntoView({ behavior: "smooth" })
+  }
 
   return (
-    <section id="pricing" className="py-20 bg-card/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center space-y-4 mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-foreground text-balance">
-            Simple, Transparent <span className="text-primary">Pricing</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Choose the perfect package for your vehicle's needs
-          </p>
-        </div>
+    <section id="pricing" className="py-20 px-4 bg-gradient-to-b from-black to-amber-950/10 relative overflow-hidden">
+      <div className="max-w-6xl mx-auto">
+        <motion.h2
+          className="text-4xl md:text-5xl font-bold text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          Our <span className="text-amber-500">Pricing</span>
+        </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {packages.map((pkg, index) => (
-            <Card
-              key={index}
-              className={`relative border transition-all duration-300 ${
-                pkg.popular
-                  ? "border-primary bg-card ring-2 ring-primary/20 md:scale-105"
-                  : "border-border hover:border-primary/50"
+        <div className="grid md:grid-cols-3 gap-8">
+          {pricingTiers.map((tier, index) => (
+            <motion.div
+              key={tier.name}
+              className={`relative rounded-lg overflow-hidden backdrop-blur-sm transition-all ${
+                tier.featured
+                  ? "border-2 border-amber-500 bg-amber-500/10 md:scale-105"
+                  : "border border-amber-500/30 bg-black/50"
               }`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              whileHover={{ boxShadow: "0 0 30px rgba(255, 165, 0, 0.3)" }}
             >
-              {pkg.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-primary text-primary-foreground text-sm font-semibold rounded-full">
-                  Most Popular
+              {tier.featured && (
+                <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-amber-500 to-amber-600 text-black text-center py-2 font-bold text-sm">
+                  MOST POPULAR
                 </div>
               )}
 
-              <div className="p-8 space-y-6">
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-bold text-foreground">{pkg.name}</h3>
-                  <p className="text-sm text-muted-foreground">{pkg.description}</p>
-                </div>
+              <div className={`p-8 ${tier.featured ? "pt-16" : ""}`}>
+                <h3 className="text-2xl font-bold text-white mb-2">{tier.name}</h3>
+                <p className="text-gray-400 text-sm mb-4">{tier.description}</p>
+                <div className="text-3xl font-bold text-amber-500 mb-6">{tier.price}</div>
 
-                <div className="space-y-1">
-                  <span className="text-4xl font-bold text-primary">{pkg.price}</span>
-                  <p className="text-sm text-muted-foreground">per service</p>
-                </div>
+                <ul className="space-y-3 mb-8">
+                  {tier.features.map((feature) => (
+                    <li key={feature} className="flex items-center gap-3 text-gray-300">
+                      <Check className="w-5 h-5 text-amber-500 flex-shrink-0" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
 
-                <Button
-                  className={`w-full ${
-                    pkg.popular
-                      ? "bg-primary hover:bg-primary/90 text-primary-foreground"
-                      : "bg-secondary hover:bg-secondary/90 text-foreground"
+                <motion.button
+                  onClick={() => scrollToSection("booking")}
+                  className={`w-full font-bold py-3 rounded-lg transition-all ${
+                    tier.featured
+                      ? "bg-amber-500 text-black hover:bg-amber-600"
+                      : "border border-amber-500 text-amber-500 hover:bg-amber-500/10"
                   }`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   Book Now
-                </Button>
-
-                <div className="space-y-3 pt-6 border-t border-border">
-                  {pkg.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center gap-3">
-                      <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                      <span className="text-sm text-foreground">{feature}</span>
-                    </div>
-                  ))}
-                </div>
+                </motion.button>
               </div>
-            </Card>
+            </motion.div>
           ))}
         </div>
       </div>
