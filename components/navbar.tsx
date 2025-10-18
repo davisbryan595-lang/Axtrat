@@ -30,7 +30,6 @@ export function Navbar() {
               height={40}
               className="group-hover:drop-shadow-lg transition-all duration-300"
             />
-            <span className="hidden sm:inline font-bold text-lg text-foreground">Axtrat</span>
           </Link>
 
           {/* Desktop Navigation */}
