@@ -73,12 +73,7 @@ export function BookingForm() {
   return (
     <section className="py-20 relative overflow-hidden">
       <div className="absolute inset-0 -z-10">
-        <Image
-          src="/luxury-car-booking-appointment-scheduling.jpg"
-          alt="Booking background"
-          fill
-          className="object-cover"
-        />
+        <Image src="/luxury-car-booking-appointment-scheduling.jpg" alt="Booking background" fill className="object-cover" />
         <div className="absolute inset-0 bg-black/70" />
       </div>
 
