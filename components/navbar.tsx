@@ -1,84 +1,70 @@
 "use client"
 
-import { useState } from "react"
-import Link from "next/link"
-import { Menu, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { useState, useEffect } from "react"
+import { motion } from "framer-motion"
 import Image from "next/image"
 
-export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
+export default function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false)
 
-  const navLinks = [
-    { label: "Home", href: "#home" },
-    { label: "About", href: "#about" },
-    { label: "Services", href: "#services" },
-    { label: "Pricing", href: "#pricing" },
-    { label: "Contact", href: "#contact" },
-  ]
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id)
+    element?.scrollIntoView({ behavior: "smooth" })
+  }
 
   return (
-    <nav className="sticky top-0 z-50 glass border-b border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <Image
-              src="/logo.png"
-              alt="Axtrat Auto Detailing"
-              width={40}
-              height={40}
-              className="group-hover:drop-shadow-lg transition-all duration-300"
-            />
-          </Link>
+    <motion.nav
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        isScrolled ? "bg-black/80 backdrop-blur-md shadow-lg" : "bg-transparent"
+      }`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+        {/* Logo */}
+        <motion.div className="flex-shrink-0" whileHover={{ scale: 1.05 }} onClick={() => scrollToSection("home")}>
+          <Image
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/axtrat-HLon88uvbeflzh8qpR5wTfroNTSV3N.jpg"
+            alt="Axtrat Auto Detailing"
+            width={60}
+            height={60}
+            className="cursor-pointer"
+          />
+        </motion.div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">Book Now</Button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-secondary transition-colors"
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X className="w-6 h-6 text-foreground" /> : <Menu className="w-6 h-6 text-foreground" />}
-          </button>
+        {/* Navigation Links */}
+        <div className="hidden md:flex items-center gap-8">
+          {["Home", "About", "Services", "Pricing", "Contact"].map((item) => (
+            <motion.button
+              key={item}
+              onClick={() => scrollToSection(item.toLowerCase())}
+              className="text-white hover:text-amber-400 transition-colors text-sm font-medium"
+              whileHover={{ y: -2 }}
+            >
+              {item}
+            </motion.button>
+          ))}
         </div>
 
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden pb-4 border-t border-border">
-            <div className="flex flex-col gap-3 pt-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-primary hover:bg-secondary rounded-lg transition-colors duration-200"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground mt-2">Book Now</Button>
-            </div>
-          </div>
-        )}
+        {/* CTA Button */}
+        <motion.button
+          onClick={() => scrollToSection("booking")}
+          className="bg-amber-500 hover:bg-amber-600 text-black font-bold px-6 py-2 rounded-lg transition-all"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          Book Now
+        </motion.button>
       </div>
-    </nav>
+    </motion.nav>
   )
 }

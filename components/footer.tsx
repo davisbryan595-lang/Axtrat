@@ -1,103 +1,121 @@
-import Link from "next/link"
-import { Facebook, Instagram, Twitter } from "lucide-react"
+"use client"
+
+import { motion } from "framer-motion"
 import Image from "next/image"
 
-export function Footer() {
+export default function Footer() {
   const currentYear = new Date().getFullYear()
 
-  const footerLinks = [
-    {
-      title: "Services",
-      links: ["Exterior Detailing", "Interior Cleaning", "Paint Protection", "Engine Detailing"],
-    },
-    {
-      title: "Company",
-      links: ["About Us", "Contact", "Pricing", "Blog"],
-    },
-    {
-      title: "Legal",
-      links: ["Privacy Policy", "Terms of Service", "Cookie Policy"],
-    },
-  ]
-
-  const socialLinks = [
-    { icon: Facebook, href: "#", label: "Facebook" },
-    { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Twitter, href: "#", label: "Twitter" },
-  ]
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id)
+    element?.scrollIntoView({ behavior: "smooth" })
+  }
 
   return (
-    <footer className="bg-card border-t border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
-          {/* Brand */}
-          <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2 group">
-              <Image
-                src="/logo.png"
-                alt="Axtrat Auto Detailing"
-                width={40}
-                height={40}
-                className="group-hover:drop-shadow-lg transition-all duration-300"
-              />
-              <span className="font-bold text-lg text-foreground">Axtrat</span>
-            </Link>
-            <p className="text-sm text-muted-foreground">
-              Premium mobile auto detailing services across North Texas. Started with a dream, built on hard work.
-            </p>
-            {/* Social Links */}
-            <div className="flex gap-4 pt-4">
-              {socialLinks.map((social, index) => {
-                const Icon = social.icon
-                return (
-                  <Link
-                    key={index}
-                    href={social.href}
-                    aria-label={social.label}
-                    className="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all"
+    <footer className="bg-black border-t border-amber-500/20 relative overflow-hidden">
+      {/* Animated glow line */}
+      <motion.div
+        className="absolute top-0 left-0 h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent"
+        animate={{ x: [-1000, 1000] }}
+        transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
+        style={{ width: "100%" }}
+      />
+
+      <div className="max-w-6xl mx-auto px-4 py-12">
+        <div className="grid md:grid-cols-4 gap-8 mb-8">
+          {/* Logo */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <Image
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/axtrat-HLon88uvbeflzh8qpR5wTfroNTSV3N.jpg"
+              alt="Axtrat"
+              width={50}
+              height={50}
+              className="mb-4"
+            />
+            <p className="text-gray-400 text-sm">Premium mobile auto detailing</p>
+          </motion.div>
+
+          {/* Quick Links */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            <h4 className="font-bold text-white mb-4">Quick Links</h4>
+            <ul className="space-y-2">
+              {["Home", "About", "Services", "Pricing"].map((link) => (
+                <li key={link}>
+                  <button
+                    onClick={() => scrollToSection(link.toLowerCase())}
+                    className="text-gray-400 hover:text-amber-500 transition-colors text-sm"
                   >
-                    <Icon className="w-5 h-5" />
-                  </Link>
-                )
-              })}
-            </div>
-          </div>
+                    {link}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
 
-          {/* Footer Links */}
-          {footerLinks.map((section, index) => (
-            <div key={index} className="space-y-4">
-              <h4 className="font-semibold text-foreground">{section.title}</h4>
-              <ul className="space-y-2">
-                {section.links.map((link, idx) => (
-                  <li key={idx}>
-                    <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                      {link}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* Services */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <h4 className="font-bold text-white mb-4">Services</h4>
+            <ul className="space-y-2">
+              {["Mobile Detailing", "Paint Correction", "Paint Protection"].map((service) => (
+                <li key={service} className="text-gray-400 text-sm">
+                  {service}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Contact */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            <h4 className="font-bold text-white mb-4">Contact</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <a href="tel:9725331176" className="text-gray-400 hover:text-amber-500 transition-colors">
+                  (972) 533-1176
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:Axtratautodetailing@gmail.com"
+                  className="text-gray-400 hover:text-amber-500 transition-colors"
+                >
+                  Email Us
+                </a>
+              </li>
+            </ul>
+          </motion.div>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-border my-8" />
-
-        {/* Bottom Footer */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">
-            &copy; {currentYear} Axtrat Mobile Auto Detailing. All rights reserved.
-          </p>
-          <div className="flex gap-6">
-            <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-              Terms of Service
-            </Link>
-          </div>
-        </div>
+        {/* Bottom */}
+        <motion.div
+          className="border-t border-amber-500/20 pt-8 text-center text-gray-400 text-sm"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <p>© {currentYear} Axtrat Mobile Auto Detailing. All rights reserved.</p>
+          <p className="mt-2 text-amber-500 font-semibold">Started with a Dream, Built on Hard Work</p>
+        </motion.div>
       </div>
     </footer>
   )

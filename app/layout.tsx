@@ -8,13 +8,13 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Axtrat Mobile Auto Detailing | Premium Car Detailing in North Texas",
+  title: "Axtrat Auto Detailing | Mobile Detailing in North Texas",
   description:
-    "Professional mobile auto detailing services in Flower Mound, Lewisville, Frisco, and surrounding North Texas areas. Premium car detailing, paint protection, and interior cleaning.",
+    "Premium mobile auto detailing services in Flower Mound, Lewisville, Frisco, and surrounding North Texas areas. Started with a Dream, Built on Hard Work.",
   generator: "v0.app",
   openGraph: {
-    title: "Axtrat Mobile Auto Detailing",
-    description: "Started with a Dream, Built on Hard Work",
+    title: "Axtrat Auto Detailing",
+    description: "Premium mobile auto detailing services in North Texas",
     type: "website",
   },
 }
@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`font-sans antialiased bg-background text-foreground`}>
+      <body className={`font-sans antialiased bg-black text-white`}>
         {children}
         <Analytics />
       </body>

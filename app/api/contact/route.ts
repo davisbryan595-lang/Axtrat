@@ -9,12 +9,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
 
-    // TODO: Integrate with email service or database
+    // TODO: Integrate with email service (SendGrid, Resend, etc.)
     console.log("Contact message received:", body)
 
-    return NextResponse.json({ message: "Message sent successfully", data: body }, { status: 200 })
+    return NextResponse.json({ message: "Message received successfully" }, { status: 200 })
   } catch (error) {
     console.error("Contact error:", error)
-    return NextResponse.json({ error: "Failed to send message" }, { status: 500 })
+    return NextResponse.json({ error: "Failed to process message" }, { status: 500 })
   }
 }
